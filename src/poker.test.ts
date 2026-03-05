@@ -132,3 +132,23 @@ describe('Hand Evaluator - Straight', () => {
     expect(result.chosen5.map(c => c.rank)).toEqual([5, 4, 3, 2, 14]);
   });
 });
+
+it('should detect a Flush and pick only the 5 best cards of that suit', () => {
+  const holeCards: Card[] = [
+    { rank: 6, suit: 'C' },
+    { rank: 13, suit: 'C' }
+  ];
+  const board: Card[] = [
+    { rank: 14, suit: 'C' },
+    { rank: 11, suit: 'C' },
+    { rank: 9, suit: 'C' },
+    { rank: 4, suit: 'C' },
+    { rank: 2, suit: 'C' }
+  ];
+
+  const result = evaluateHand(holeCards, board);
+
+  expect(result.category).toBe('Flush');
+  const ranks = result.chosen5.map(c => c.rank);
+  expect(ranks).toEqual([14, 13, 11, 9, 6]);
+});
