@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { Card } from './types';
-import { evaluateHand } from './poker';
+import { evaluateHand, compareHands } from './poker';
 
 
 describe('Evaluate that only high card are selected', () => {

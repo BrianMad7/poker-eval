@@ -26,6 +26,21 @@ export function evaluateHand(hand: Card[], board: Card[]): HandResult {
     }
 }
 
-export function compareHands(hand1: Card[], hand2: Card[]): number {
-    
+export function compareHands(hand1: HandResult, hand2: HandResult): number {
+    const categories = [
+        'High card', 'One pair',
+    ];
+
+    const score1 = categories.indexOf(hand1.category);
+    const score2 = categories.indexOf(hand2.category);
+
+    if (score1 > score2) return 1;
+    if (score1 < score2) return -1;
+
+    for (let i = 0; i < 5; i++) {
+    if (hand1.chosen5[i].rank > hand2.chosen5[i].rank) return 1;
+    if (hand1.chosen5[i].rank < hand2.chosen5[i].rank) return -1;
+  }
+
+  return 0
 }
