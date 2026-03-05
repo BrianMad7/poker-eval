@@ -1,9 +1,20 @@
-import { Card, HandResult } from './types';
+import { Card, HandResult, Suit } from './types';
 
 export function evaluateHand(hand: Card[], board: Card[]): HandResult {
     const cards = [...hand, ...board];
 
     const cardsSorted = cards.sort((a, b) => b.rank - a.rank)
+
+    const suits: Suit[] = ['C', 'K', 'T', 'P'];
+    for (const suit of suits) {
+        const suitedCards = cardsSorted.filter(c => c.suit === suit);
+        if (suitedCards.length >= 5) {
+        return {
+            category: 'Flush',
+            chosen5: suitedCards.slice(0, 5)
+        };
+        }
+    }
 
     const uniqueRanks = Array.from(new Set(cardsSorted.map(c => c.rank)));
 
@@ -66,7 +77,7 @@ export function evaluateHand(hand: Card[], board: Card[]): HandResult {
 
 export function compareHands(hand1: HandResult, hand2: HandResult): number {
     const categories = [
-        'High card', 'One pair', 'Two pair'
+        'High card', 'One pair', 'Two pair','Straight', 'Flush'
     ];
 
     const score1 = categories.indexOf(hand1.category);
