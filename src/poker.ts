@@ -25,3 +25,7 @@ export function evaluateHand(hand: Card[], board: Card[]): HandResult {
         chosen5: cardsSorted.slice(0, 5)
     }
 }
+
+export function compareHands(hand1: Card[], hand2: Card[]): number {
+    
+}

@@ -49,3 +49,23 @@ it('should detect a Pair and include the 3 best kickers', () => {
   expect(result.chosen5[3].rank).toBe(8);
   expect(result.chosen5[4].rank).toBe(6);
 });
+
+it('should decide winner between two pairs using the best kicker', () => {
+  const board: Card[] = [
+    { rank: 10, suit: 'T' },
+    { rank: 10, suit: 'P' },
+    { rank: 8, suit: 'K' },
+    { rank: 6, suit: 'C' },
+    { rank: 4, suit: 'K' }
+  ];
+
+  const player1Hole: Card[] = [{ rank: 14, suit: 'C' }, { rank: 2, suit: 'P' }];
+  const player2Hole: Card[] = [{ rank: 13, suit: 'T' }, { rank: 3, suit: 'K' }];
+
+  const res1 = evaluateHand(player1Hole, board);
+  const res2 = evaluateHand(player2Hole, board);
+
+  const winner = compareHands(res1, res2);
+
+  expect(winner).toBe(1);
+});
