@@ -92,3 +92,43 @@ it('should detect Two Pair and pick the two highest pairs among three', () => {
   expect(result.chosen5[3].rank).toBe(8);
   expect(result.chosen5[4].rank).toBe(10);
 });
+
+describe('Hand Evaluator - Straight', () => {
+  it('should detect a Ace-high straight (10-11-12-13-A)', () => {
+    const holeCards: Card[] = [
+      { rank: 14, suit: 'P' },
+      { rank: 13, suit: 'C' }
+    ];
+    const board: Card[] = [
+      { rank: 12, suit: 'K' },
+      { rank: 11, suit: 'T' },
+      { rank: 10, suit: 'P' },
+      { rank: 2, suit: 'C' },
+      { rank: 5, suit: 'K' }
+    ];
+
+    const result = evaluateHand(holeCards, board);
+
+    expect(result.category).toBe('Straight');
+    expect(result.chosen5.map(c => c.rank)).toEqual([14, 13, 12, 11, 10]);
+  });
+
+  it('should detect an Ace-low straight (A-2-3-4-5)', () => {
+    const holeCards: Card[] = [
+      { rank: 14, suit: 'P' },
+      { rank: 2, suit: 'C' }
+    ];
+    const board: Card[] = [
+      { rank: 3, suit: 'K' },
+      { rank: 4, suit: 'T' },
+      { rank: 5, suit: 'P' },
+      { rank: 8, suit: 'C' },
+      { rank: 9, suit: 'K' }
+    ];
+
+    const result = evaluateHand(holeCards, board);
+
+    expect(result.category).toBe('Straight');
+    expect(result.chosen5.map(c => c.rank)).toEqual([5, 4, 3, 2, 14]);
+  });
+});
