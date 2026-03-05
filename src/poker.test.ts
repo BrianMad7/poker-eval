@@ -152,3 +152,25 @@ it('should detect a Flush and pick only the 5 best cards of that suit', () => {
   const ranks = result.chosen5.map(c => c.rank);
   expect(ranks).toEqual([14, 13, 11, 9, 6]);
 });
+
+it('should decide winner using kicker when Four of a Kind is on the board', () => {
+  const board: Card[] = [
+    { rank: 7, suit: 'P' }, { rank: 7, suit: 'C' }, 
+    { rank: 7, suit: 'K' }, { rank: 7, suit: 'T' }, 
+    { rank: 2, suit: 'K' }
+  ];
+  
+  const p1Hole: Card[] = [{ rank: 14, suit: 'C' }, { rank: 4, suit: 'P' }];
+  const p2Hole: Card[] = [{ rank: 12, suit: 'T' }, { rank: 11, suit: 'K' }];
+
+  const res1 = evaluateHand(p1Hole, board);
+  const res2 = evaluateHand(p2Hole, board);
+
+  expect(res1.category).toBe('Four of a kind');
+  expect(res2.category).toBe('Four of a kind');
+
+  expect(res1.chosen5.map(c => c.rank)).toEqual([7, 7, 7, 7, 14]);
+  expect(res2.chosen5.map(c => c.rank)).toEqual([7, 7, 7, 7, 12]);
+
+  expect(compareHands(res1, res2)).toBe(1);
+});
