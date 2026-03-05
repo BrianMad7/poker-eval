@@ -69,3 +69,26 @@ it('should decide winner between two pairs using the best kicker', () => {
 
   expect(winner).toBe(1);
 });
+
+it('should detect Two Pair and pick the two highest pairs among three', () => {
+  const holeCards: Card[] = [
+    { rank: 14, suit: 'P' }, { rank: 14, suit: 'C' }
+  ];
+  const board: Card[] = [
+    { rank: 8, suit: 'K' },
+    { rank: 8, suit: 'T' },
+    { rank: 3, suit: 'P' },
+    { rank: 3, suit: 'C' },
+    { rank: 10, suit: 'K' }
+  ];
+
+  const result = evaluateHand(holeCards, board);
+
+  expect(result.category).toBe('Two pair');
+
+  expect(result.chosen5[0].rank).toBe(14);
+  expect(result.chosen5[1].rank).toBe(14);
+  expect(result.chosen5[2].rank).toBe(8);
+  expect(result.chosen5[3].rank).toBe(8);
+  expect(result.chosen5[4].rank).toBe(10);
+});
