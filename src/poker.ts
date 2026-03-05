@@ -40,6 +40,10 @@ export function evaluateHand(hand: Card[], board: Card[]): HandResult {
     const counts = new Map<number, number>();
     cardsSorted.forEach(c => counts.set(c.rank, (counts.get(c.rank) || 0) + 1));
 
+    // const quadRank = Array.from(counts.keys()).find(rank => counts.get(rank) === 4);
+    // if (quadRank) {
+    //     const quadCards = allCards.filter(c => c.rank === quadRank);
+
     const pairs = Array.from(counts.keys())
         .filter(rank => counts.get(rank) === 2)
         .sort((a, b) => b - a);
