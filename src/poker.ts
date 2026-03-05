@@ -5,6 +5,27 @@ export function evaluateHand(hand: Card[], board: Card[]): HandResult {
 
     const cardsSorted = cards.sort((a, b) => b.rank - a.rank)
 
+    const uniqueRanks = Array.from(new Set(cardsSorted.map(c => c.rank)));
+
+    for (let i = 0; i <= uniqueRanks.length - 5; i++) {
+        if (uniqueRanks[i] - uniqueRanks[i + 4] === 4) {
+        const straightRanks = uniqueRanks.slice(i, i + 5);
+        return {
+            category: 'Straight',
+            chosen5: straightRanks.map(r => cardsSorted.find(c => c.rank === r)!)
+        };
+        }
+    }
+
+    const isWheel = [14, 5, 4, 3, 2].every(r => uniqueRanks.includes(r));
+    if (isWheel) {
+        const wheelRanks = [5, 4, 3, 2, 14];
+        return {
+        category: 'Straight',
+        chosen5: wheelRanks.map(r => cardsSorted.find(c => c.rank === r)!)
+        };
+    }
+
     const counts = new Map<number, number>();
     cardsSorted.forEach(c => counts.set(c.rank, (counts.get(c.rank) || 0) + 1));
 
